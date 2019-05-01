@@ -31,22 +31,19 @@ module.exports.getUserByUsername = username => {
   const query = {
     username: username
   };
-  return User.findOne(query).exec();
+  return User.findOne({ username }).exec();
 };
 
-module.exports.addUser = function(newUser, callback) {
+module.exports.addUser = newUser => {
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(newUser.password, salt, (err, hash) => {
       if (err) throw err;
       newUser.password = hash;
-      newUser.save(callback);
+      return newUser.save();
     });
   });
 };
 
-module.exports.comparePassword = function(candidatePassword, hash, callback) {
-  bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
-    if (err) throw err;
-    callback(null, isMatch);
-  });
+module.exports.comparePassword = (candidatePassword, hash) => {
+  return bcrypt.compare(candidatePassword, hash);
 };
