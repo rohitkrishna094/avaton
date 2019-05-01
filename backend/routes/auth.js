@@ -6,7 +6,7 @@ const config = require('../config/database');
 const User = require('../models/user');
 
 // Register
-router.post('/register', (req, res, next) => {
+router.post('/register', async (req, res, next) => {
   let newUser = new User({
     name: req.body.name,
     email: req.body.email,
@@ -14,19 +14,31 @@ router.post('/register', (req, res, next) => {
     password: req.body.password
   });
 
-  User.addUser(newUser, (err, user) => {
-    if (err) {
-      res.json({
+  User.getUserByUsername(newUser.username)
+    .then(user => {
+      if (user) {
+        return res.status(409).json({ success: false, msg: 'User already exists with username ' + newUser.username });
+      }
+      User.addUser(newUser, (err, user) => {
+        if (err) {
+          return res.json({
+            success: false,
+            msg: 'Failed to register user'
+          });
+        } else {
+          return res.json({
+            success: true,
+            msg: 'User registered'
+          });
+        }
+      });
+    })
+    .catch(err => {
+      return res.status(409).json({
         success: false,
-        msg: 'Failed to register user'
+        msg: 'Some error occurred while registering the user'
       });
-    } else {
-      res.json({
-        success: true,
-        msg: 'User registered'
-      });
-    }
-  });
+    });
 });
 
 // Authenticate

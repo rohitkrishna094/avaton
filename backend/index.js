@@ -42,16 +42,15 @@ require('./config/passport')(passport);
 
 app.use('/api/auth', auth);
 
-// Index Route
-app.get('/map', (req, res) => {
-  res.send('Invalid Endpoint');
-  res.end();
+app.get('/test', (req, res) => {
+  res.send({ data: '' });
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+  // res.sendFile(path.join(__dirname, 'public/index.html'));
+  res.send('Invalid Endpoint');
+  res.end();
 });
-// res.redirect('http://localhost:3000');
 
 // Start Server
 app.listen(port, () => {
