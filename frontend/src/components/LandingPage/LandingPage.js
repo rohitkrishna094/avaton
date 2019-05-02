@@ -84,7 +84,7 @@ class LandingPage extends Component {
           </div>
           <div className="landingPage_form">
             <Card
-              style={{ width: '60%', height: '380px', 'border-radius': '5px', 'box-shadow': '3px 5px #888888' }}
+              style={{ height: '380px', 'border-radius': '5px', 'box-shadow': '3px 5px #888888' }}
               // title=" "
               tabList={tabList}
               activeTabKey={this.state.key}
