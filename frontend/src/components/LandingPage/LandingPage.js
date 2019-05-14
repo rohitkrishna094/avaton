@@ -2,76 +2,109 @@ import React, { Component } from 'react';
 import './LandingPage.css';
 import { Card, Input, Button } from 'antd';
 
-const tabList = [
-  {
-    key: 'tab1',
-    tab: 'Register'
-  },
-  {
-    key: 'tab2',
-    tab: 'Login'
-  }
-];
-
-const content1 = (
-  <React.Fragment>
-    <Input placeholder="Name" />
-    <br />
-    <br />
-    <Input placeholder="Username" />
-    <br />
-    <br />
-    <Input placeholder="Email" />
-    <br />
-    <br />
-    <Input.Password placeholder="Password" />
-    <br />
-    <br />
-    <br />
-    <Button type="primary" block>
-      Register
-    </Button>
-  </React.Fragment>
-);
-const content2 = (
-  <React.Fragment>
-    <br />
-    <br />
-    <Input placeholder="Username" />
-    <br />
-    <br />
-    <br />
-    <Input.Password placeholder="Password" />
-    <br />
-    <br />
-    <br />
-    <Button type="primary" block style={{ marginTop: '43px' }}>
-      Login
-    </Button>
-  </React.Fragment>
-);
-
-const contentList = {
-  tab1: content1,
-  tab2: content2
-};
-
 class LandingPage extends Component {
   state = {
     key: 'tab2',
-    noTitleKey: 'app'
+    noTitleKey: 'app',
+    register: {},
+    login: {},
+    tabList: [
+      {
+        key: 'tab1',
+        tab: 'Register'
+      },
+      {
+        key: 'tab2',
+        tab: 'Login'
+      }
+    ]
+  };
+
+  registerChange = e => {
+    this.setState({ register: { ...this.state.register, [e.target.name]: e.target.value } });
+  };
+
+  loginChange = e => {
+    this.setState({ login: { ...this.state.login, [e.target.name]: e.target.value } });
   };
 
   onTabChange = (key, type) => {
-    console.log(key, type);
-    this.setState({ [type]: key });
+    this.setState({ [type]: key, register: {}, login: {} });
   };
   render() {
+    const registerContent = (
+      <React.Fragment>
+        <Input placeholder="Name" name="name" value={this.state.register.name} onChange={e => this.registerChange(e)} />
+        <br />
+        <br />
+        <Input
+          placeholder="Username"
+          name="username"
+          value={this.state.register.username}
+          onChange={e => this.registerChange(e)}
+        />
+        <br />
+        <br />
+        <Input
+          placeholder="Email"
+          name="email"
+          value={this.state.register.email}
+          onChange={e => this.registerChange(e)}
+        />
+        <br />
+        <br />
+        <Input.Password
+          placeholder="Password"
+          name="password"
+          value={this.state.register.password}
+          onChange={e => this.registerChange(e)}
+        />
+        <br />
+        <br />
+        <br />
+        <Button type="primary" block>
+          Register
+        </Button>
+      </React.Fragment>
+    );
+    const loginContent = (
+      <React.Fragment>
+        <br />
+        <br />
+        <Input
+          placeholder="Username"
+          name="username"
+          value={this.state.login.username}
+          onChange={e => this.loginChange(e)}
+        />
+        <br />
+        <br />
+        <br />
+        <Input.Password
+          placeholder="Password"
+          name="password"
+          value={this.state.login.password}
+          onChange={e => this.loginChange(e)}
+        />
+        <br />
+        <br />
+        <br />
+        <Button type="primary" block style={{ marginTop: '43px' }}>
+          Login
+        </Button>
+      </React.Fragment>
+    );
+
+    const contentList = {
+      tab1: registerContent,
+      tab2: loginContent
+    };
+
     return (
       <div className="landingPage">
         <div className="landingPage_row">
           <div className="landingPage_header">
-            <i class="fas fa-bolt" /> <span id="landingPage_text">Olympus</span>
+            <i className="fas fa-bolt" /> <span id="landingPage_text">Avaton</span>
           </div>
         </div>
         <div className="landingPage_row">
@@ -84,9 +117,9 @@ class LandingPage extends Component {
           </div>
           <div className="landingPage_form">
             <Card
-              style={{ height: '380px', 'border-radius': '5px', 'box-shadow': '3px 5px #888888' }}
+              style={{ height: '380px', borderRadius: '5px', boxShadow: '3px 5px #888888' }}
               // title=" "
-              tabList={tabList}
+              tabList={this.state.tabList}
               activeTabKey={this.state.key}
               onTabChange={key => {
                 this.onTabChange(key, 'key');
