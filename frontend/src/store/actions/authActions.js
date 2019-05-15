@@ -44,11 +44,11 @@ export const login = credentials => {
       .then(res => res.json())
       .then(data => {
         let error = {};
-        if (data.status !== 200) {
-          error = data.error;
+        if (!data.success) {
+          error = data.msg;
           dispatch({ type: LOGIN_ERROR, payload: { error } });
-        } else if (data.status === 200) {
-          dispatch({ type: LOGIN_SUCCESS, payload: { token: data.accessToken } });
+        } else if (data.success) {
+          dispatch({ type: LOGIN_SUCCESS, payload: { token: data.token } });
         }
       });
   };

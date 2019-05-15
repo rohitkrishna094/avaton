@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import './LandingPage.css';
-import { Card, Input, Button } from 'antd';
+import { Card, Input, Button, message } from 'antd';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { register, removeRegisterError, login } from '../../store/actions/authActions';
+import { saveToken } from '../../util/jwtUtil';
 
 class LandingPage extends Component {
   state = {
@@ -36,9 +37,26 @@ class LandingPage extends Component {
   };
 
   onRegisterClick = e => {
-    // console.log(this.state.register);
     this.props.register(this.state.register);
   };
+
+  onLoginClick = e => {
+    this.props.login(this.state.login);
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.registered) {
+      message.success('You have registered: please login with the same credentials');
+      this.setState({ ...this.state, register: {}, login: {}, key: 'tab2' });
+    } else if (nextProps.loggedIn === true) {
+      saveToken(nextProps.token);
+      this.props.history.push('./profile');
+    } else if (nextProps.error && Object.keys(nextProps.error).length !== 0) {
+      message.error('Auth Error: Error while sign up: ' + nextProps.error);
+      this.setState({ ...this.state, register: {}, login: {} });
+      this.props.removeRegisterError();
+    }
+  }
 
   render() {
     const registerContent = (
@@ -98,7 +116,7 @@ class LandingPage extends Component {
         <br />
         <br />
         <br />
-        <Button type="primary" block style={{ marginTop: '43px' }}>
+        <Button type="primary" block style={{ marginTop: '43px' }} onClick={e => this.onLoginClick(e)}>
           Login
         </Button>
       </React.Fragment>
@@ -111,7 +129,6 @@ class LandingPage extends Component {
 
     return (
       <div className="landingPage">
-        <h1>hello - {this.props.registered}</h1>
         <div className="landingPage_row">
           <div className="landingPage_header">
             <i className="fas fa-bolt" /> <span id="landingPage_text">Avaton</span>
