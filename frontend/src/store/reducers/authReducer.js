@@ -1,19 +1,19 @@
 import {
-  SIGNUP_SUCCESS,
-  SIGNUP_ERROR,
-  REMOVE_SIGNUP_ERROR,
+  REGISTER_SUCCESS,
+  REGISTER_ERROR,
+  REMOVE_REGISTER_ERROR,
   LOGIN_ERROR,
   LOGIN_SUCCESS
 } from '../actionTypes/actionTypes';
 
-const initialState = { signedUp: false, error: {}, token: null, loggedIn: false };
+const initialState = { registered: false, error: {}, token: null, loggedIn: false };
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SIGNUP_SUCCESS:
-      return { ...state, signedUp: true, error: {} };
-    case SIGNUP_ERROR:
-      return { ...state, signedUp: false, error: action.payload.error };
-    case REMOVE_SIGNUP_ERROR:
+    case REGISTER_SUCCESS:
+      return { ...state, registered: true, error: {} };
+    case REGISTER_ERROR:
+      return { ...state, registered: false, error: action.payload.error };
+    case REMOVE_REGISTER_ERROR:
       return { ...state, error: null };
     case LOGIN_ERROR:
       return { ...state, error: action.payload.error, token: null, loggedIn: false };

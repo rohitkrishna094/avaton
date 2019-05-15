@@ -1,20 +1,20 @@
 import { baseUrl } from '../../api/apiInfo';
 import {
-  SIGNUP_SUCCESS,
-  SIGNUP_ERROR,
+  REGISTER_SUCCESS,
+  REGISTER_ERROR,
   LOGIN_ERROR,
   LOGIN_SUCCESS,
-  REMOVE_SIGNUP_ERROR
+  REMOVE_REGISTER_ERROR
 } from '../actionTypes/actionTypes';
 
-export const signup = credentials => {
+export const register = credentials => {
   return (dispatch, getState) => {
     // call backend service here
-    const { username, password } = credentials;
+    const { username, password, name, email } = credentials;
     const url = `${baseUrl}/auth/register`;
     fetch(url, {
       method: 'POST',
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password, name, email }),
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
@@ -22,9 +22,9 @@ export const signup = credentials => {
         let error = {};
         if (!data.success) {
           error = data.msg;
-          dispatch({ type: SIGNUP_ERROR, payload: { error } });
+          dispatch({ type: REGISTER_ERROR, payload: { error } });
         } else if (data.success) {
-          dispatch({ type: SIGNUP_SUCCESS, payload: { username } });
+          dispatch({ type: REGISTER_SUCCESS, payload: { username } });
         }
       });
   };
@@ -32,7 +32,7 @@ export const signup = credentials => {
 
 export const login = credentials => {
   return (dispatch, getState) => {
-    // call backend servic ehere
+    // call backend service here
     const { username, password } = credentials;
     const url = `${baseUrl}/auth/login`;
 
@@ -54,8 +54,8 @@ export const login = credentials => {
   };
 };
 
-export const removeSignUpError = () => {
+export const removeRegisterError = () => {
   return (dispatch, getState) => {
-    dispatch({ type: REMOVE_SIGNUP_ERROR });
+    dispatch({ type: REMOVE_REGISTER_ERROR });
   };
 };

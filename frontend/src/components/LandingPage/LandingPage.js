@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './LandingPage.css';
 import { Card, Input, Button } from 'antd';
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
+import { register, removeRegisterError, login } from '../../store/actions/authActions';
 
 class LandingPage extends Component {
   state = {
@@ -31,6 +34,12 @@ class LandingPage extends Component {
   onTabChange = (key, type) => {
     this.setState({ [type]: key, register: {}, login: {} });
   };
+
+  onRegisterClick = e => {
+    // console.log(this.state.register);
+    this.props.register(this.state.register);
+  };
+
   render() {
     const registerContent = (
       <React.Fragment>
@@ -62,7 +71,7 @@ class LandingPage extends Component {
         <br />
         <br />
         <br />
-        <Button type="primary" block>
+        <Button type="primary" block onClick={e => this.onRegisterClick(e)}>
           Register
         </Button>
       </React.Fragment>
@@ -102,6 +111,7 @@ class LandingPage extends Component {
 
     return (
       <div className="landingPage">
+        <h1>hello - {this.props.registered}</h1>
         <div className="landingPage_row">
           <div className="landingPage_header">
             <i className="fas fa-bolt" /> <span id="landingPage_text">Avaton</span>
@@ -133,4 +143,25 @@ class LandingPage extends Component {
     );
   }
 }
-export default LandingPage;
+
+const mapStateToProps = state => {
+  return {
+    registered: state.auth.registered,
+    error: state.auth.error,
+    loginError: state.auth.error,
+    loggedIn: state.auth.loggedIn,
+    token: state.auth.token
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    register: registerCredentials => dispatch(register(registerCredentials)),
+    removeRegisterError: () => dispatch(removeRegisterError()),
+    login: loginCredentials => dispatch(login(loginCredentials))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(LandingPage));
