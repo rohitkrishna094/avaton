@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
+
+import { removeToken } from '../../util/jwtUtil';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 
 const { Header, Content, Footer } = Layout;
 
-export default class Navbar extends Component {
+class Navbar extends Component {
+  onLogoutClick = e => {
+    removeToken();
+    this.props.history.push('');
+  };
+
   render() {
     return (
       <Layout className="layout">
@@ -14,7 +22,7 @@ export default class Navbar extends Component {
             <Menu.Item key="2">Profile</Menu.Item>
             <Menu.Item key="3">Search</Menu.Item>
 
-            <Menu.Item key="6" style={{ float: 'right' }}>
+            <Menu.Item key="6" style={{ float: 'right' }} onClick={e => this.onLogoutClick(e)}>
               <Icon type="logout" />
               {/* <span>logout</span> */}
             </Menu.Item>
@@ -36,3 +44,5 @@ export default class Navbar extends Component {
     );
   }
 }
+
+export default withRouter(Navbar);
