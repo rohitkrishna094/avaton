@@ -1,2 +1,4 @@
 language: node_js
-script: ./build.sh
+script:
+  - chmod +x ./build.sh
+  - ./build.sh
