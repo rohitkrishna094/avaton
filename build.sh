@@ -1,6 +1,6 @@
 #! /bin/sh
 
-cd ./backend
+cd ../backend
 npm i
 npm start
 # cd ../frontend
