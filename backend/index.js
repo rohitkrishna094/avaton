@@ -5,6 +5,10 @@ const cors = require('cors');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const config = require('./config/database');
+const YAML = require('yamljs');
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = YAML.load('./documentation/api-spec.yaml');
 
 // Connected to database
 mongoose.connect(config.database);
@@ -20,8 +24,6 @@ mongoose.connection.on('error', err => {
 });
 
 const app = express();
-
-const auth = require('./routes/auth');
 
 // Port Number
 const port = process.env.PORT || 8085;
@@ -40,7 +42,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
 
+// Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+const auth = require('./routes/auth');
+const profile = require('./routes/profile');
 app.use('/api/auth', auth);
+app.use('/api/profile', profile);
 
 app.get('/test', (req, res) => {
   res.send({ data: '' });

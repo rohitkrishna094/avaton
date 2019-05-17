@@ -1,0 +1,75 @@
+swagger: '2.0'
+info:
+  description: 'This is doc for avaton-backend'
+  version: '1.0.0'
+  title: 'Avaton Backend'
+  contact:
+    url: 'https://github.com/rohitkrishna094/avaton'
+  license:
+    name: 'Apache 2.0'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'localhost:8085'
+basePath: '/api'
+schemes:
+  - 'https'
+  - 'http'
+paths:
+  /auth/register:
+    post:
+      summary: 'Register a new user'
+      description: 'Register a new user. Pass name,email,username,password'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'RequestObject'
+          schema:
+            $ref: '#/definitions/Register'
+      responses:
+        200:
+          description: 'User Registered'
+  /auth/login:
+    post:
+      summary: 'Login a new user'
+      description: 'Login a new user. Pass username,password'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'RequestObject'
+          schema:
+            $ref: '#/definitions/Login'
+      responses:
+        200:
+          description: 'Get jwt token'
+securityDefinitions:
+  api_key:
+    type: 'apiKey'
+    name: 'api_key'
+    in: 'header'
+definitions:
+  Register:
+    type: 'object'
+    properties:
+      success:
+        type: 'boolean'
+      msg:
+        type: 'string'
+  Login:
+    type: 'object'
+    properties:
+      success:
+        type: 'boolean'
+      token:
+        type: 'string'
+      user:
+        type: 'object'
+    xml:
+      name: 'Category'
+externalDocs:
+  description: 'Find out more about Swagger'
+  url: 'http://swagger.io'
