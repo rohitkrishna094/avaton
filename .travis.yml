@@ -1,5 +1,4 @@
 language: node_js
 script:
-  - npm i -g nodemon
   - chmod +x ./build.sh
   - ./build.sh
