@@ -64,3 +64,44 @@ app.get('*', (req, res) => {
 app.listen(port, () => {
   console.log('Server started on port ' + port);
 });
+
+// Load the SDK and UUID
+// var AWS = require('aws-sdk');
+// var uuid = require('uuid');
+// AWS.config.loadFromPath('./config/aws.json');
+
+// // Create unique bucket name
+// var bucketName = 'avaton-storage';
+// // Create name for uploaded object key
+// var keyName = 'hello_world.txt';
+
+// // Create a promise on S3 service object
+// var bucketPromise = new AWS.S3({ apiVersion: '2006-03-01' }).createBucket({ Bucket: bucketName }).promise();
+
+// // Handle promise fulfilled/rejected states
+// bucketPromise
+//   .then(function(data) {
+//     // Create params for putObject call
+//     var objectParams = { Bucket: bucketName, Key: keyName, Body: 'Hello World!' };
+//     // Create object upload promise
+//     var uploadPromise = new AWS.S3({ apiVersion: '2006-03-01' }).putObject(objectParams).promise();
+//     uploadPromise.then(function(data) {
+//       console.log('Successfully uploaded data to ' + bucketName + '/' + keyName);
+//     });
+//   })
+//   .catch(function(err) {
+//     console.error(err, err.stack);
+//   });
+
+const aws = require('./util/aws-service');
+
+// aws.listBuckets().then(data => console.log(data));
+// aws.createBucket('rohitbucket094').then(data => console.log(data));
+// aws.deleteBucket('rohitbucket094').then(data => console.log(data));
+// aws.listObjects('rcrm-storage').then(data => console.log(data));
+// aws.deleteObject('avaton-storage', 'git.txt').then(data => console.log(data));
+let upload = aws.uploadFile('avaton-storage');
+app.post('/upload', upload.single('avatar'), function(req, res, next) {
+  console.log(req.file);
+  res.send('Successfully uploaded files!');
+});
