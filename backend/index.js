@@ -11,7 +11,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = YAML.load('./documentation/api-spec.yaml');
 
 // Connected to database
-mongoose.connect(config.database);
+mongoose.connect(config.database, { useNewUrlParser: true });
 
 // On database connection
 mongoose.connection.on('connected', () => {
@@ -93,15 +93,14 @@ app.listen(port, () => {
 //     console.error(err, err.stack);
 //   });
 
-const aws = require('./util/aws-service');
-
+// const aws = require('./util/aws-service');
 // aws.listBuckets().then(data => console.log(data));
 // aws.createBucket('rohitbucket094').then(data => console.log(data));
 // aws.deleteBucket('rohitbucket094').then(data => console.log(data));
 // aws.listObjects('rcrm-storage').then(data => console.log(data));
 // aws.deleteObject('avaton-storage', 'git.txt').then(data => console.log(data));
-let upload = aws.uploadFile('avaton-storage');
-app.post('/upload', upload.single('avatar'), function(req, res, next) {
-  console.log(req.file);
-  res.send('Successfully uploaded files!');
-});
+// let upload = aws.uploadFile('avaton-storage');
+// app.post('/upload', upload.single('avatar'), function(req, res, next) {
+//   console.log(req.file);
+//   res.send('Successfully uploaded files!');
+// });

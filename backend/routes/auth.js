@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const User = require('../models/user');
 const _ = require('lodash');
+const getAuthenticatedUser = require('./shared/authenticate');
 
 // Register
 router.post('/register', async (req, res, next) => {
@@ -69,21 +70,5 @@ router.get('/test', async (req, res, next) => {
     return res.status(401).json({ success: false, msg: 'You are unauthorized' });
   }
 });
-
-// return undefined if not
-getAuthenticatedUser = (req, res, next) => {
-  return new Promise((resolve, reject) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-      if (err || !user) reject({ err, user });
-      user = JSON.parse(JSON.stringify(user));
-      resolve(user);
-    })(req, res, next);
-  });
-};
-
-// Profile
-router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res, next) =>
-  res.json({ user: req.user })
-);
 
 module.exports = router;
