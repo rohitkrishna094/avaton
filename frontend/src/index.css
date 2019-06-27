@@ -1,5 +1,5 @@
 :root {
-  --primary-color: black;
+  --primary-color: #7C5AC2;
   --primary-background-color: #FB623F;
   --complementary-color: white;
 }
@@ -9,6 +9,7 @@ body {
   font-family: 'Stylish', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--primary-background-color);
 }
 
 code {

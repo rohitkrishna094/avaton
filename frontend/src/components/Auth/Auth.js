@@ -4,40 +4,52 @@ import { withRouter } from 'react-router-dom';
 import './Auth.css';
 
 const Login = props => {
+  const { onChange } = props;
   return (
     <div className="login">
       <span>Login</span>
-      <input type="text" name="username" placeholder="Username" />
-      <input type="password" name="password" placeholder="Password" />
+      <input type="text" name="username" placeholder="Username" onChange={onChange} />
+      <input type="password" name="password" placeholder="Password" onChange={onChange} />
       <button>Login</button>
     </div>
   );
 };
 
 const Register = props => {
+  const { onChange } = props;
   return (
     <div className="register">
       <span>Register</span>
-      <input type="text" name="name" placeholder="Name" />
-      <input type="email" name="email" placeholder="Email" />
-      <input type="text" name="username" placeholder="Username" />
-      <input type="password" name="password" placeholder="Password" />
+      <input type="text" name="name" placeholder="Name" onChange={onChange} />
+      <input type="email" name="email" placeholder="Email" onChange={onChange} />
+      <input type="text" name="username" placeholder="Username" onChange={onChange} />
+      <input type="password" name="password" placeholder="Password" onChange={onChange} />
       <button>Register</button>
     </div>
   );
 };
 
 class Auth extends Component {
-  state = { active: 'register' };
+  state = { active: 'register', registerCreds: { name: '', email: '', username: '', password: '' }, loginCreds: { username: '', password: '' } };
 
   onClick = (e, active) => {
     this.setState({ active });
   };
 
+  onChange = e => {
+    const active = this.state.active;
+    this.setState({
+      [`${active}Creds`]: {
+        ...this.state[`${active}Creds`],
+        [e.target.name]: e.target.value
+      }
+    });
+  };
+
   render() {
     const mapping = {
-      register: <Register />,
-      login: <Login />
+      register: <Register onChange={e => this.onChange(e)} />,
+      login: <Login onChange={e => this.onChange(e)} />
     };
 
     const colorCondition = this.state.active === 'login';
