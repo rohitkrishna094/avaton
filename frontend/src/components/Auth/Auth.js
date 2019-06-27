@@ -6,8 +6,10 @@ import './Auth.css';
 const Login = props => {
   return (
     <div className="login">
-      <input type="text" name="username" />
-      <input type="password" name="password" />
+      <span>Login</span>
+      <input type="text" name="username" placeholder="Username" />
+      <input type="password" name="password" placeholder="Password" />
+      <button>Login</button>
     </div>
   );
 };
@@ -15,16 +17,31 @@ const Login = props => {
 const Register = props => {
   return (
     <div className="register">
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <input type="text" name="username" />
-      <input type="password" name="password" />
+      <span>Register</span>
+      <input type="text" name="name" placeholder="Name" />
+      <input type="email" name="email" placeholder="Email" />
+      <input type="text" name="username" placeholder="Username" />
+      <input type="password" name="password" placeholder="Password" />
+      <button>Register</button>
     </div>
   );
 };
 
 class Auth extends Component {
+  state = { active: 'register' };
+
+  onClick = (e, active) => {
+    this.setState({ active });
+  };
+
   render() {
+    const mapping = {
+      register: <Register />,
+      login: <Login />
+    };
+
+    const colorCondition = this.state.active === 'login';
+
     return (
       <div className="auth">
         <div className="info">
@@ -33,17 +50,14 @@ class Auth extends Component {
         </div>
         <div className="auth-card">
           <div className="button-section">
-            <span>
-              <i className="fas fa-user-plus" />
+            <span onClick={e => this.onClick(e, 'register')}>
+              <i className="fas fa-user-plus" style={!colorCondition ? { color: 'var(--primary-background-color)' } : undefined} />
             </span>
-            <span>
-              <i className="fas fa-sign-in-alt" />
+            <span onClick={e => this.onClick(e, 'login')}>
+              <i className="fas fa-sign-in-alt" style={colorCondition ? { color: 'var(--primary-background-color)' } : undefined} />
             </span>
           </div>
-          <div className="form-section">
-            <Register />
-            {/* <Login /> */}
-          </div>
+          <div className="form-section">{mapping[this.state.active]}</div>
         </div>
       </div>
     );
