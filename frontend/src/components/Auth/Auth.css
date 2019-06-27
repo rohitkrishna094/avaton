@@ -1,0 +1,62 @@
+.auth {
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--primary-background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth .info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: center;
+    color: var(--complementary-color);
+}
+
+.auth .info .title {
+    font-size: 72px;
+}
+
+.auth .info .description {
+    font-size: 24px;
+}
+
+
+.auth .auth-card {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.auth .auth-card .button-section {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 700px;
+    width: 70px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.auth .auth-card .button-section span {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #d3d3d3;
+    cursor: pointer;
+}
+
+.auth .auth-card .button-section i {
+    font-size: 24px;
+    color: red;
+}
+
+.auth .auth-card .form-section .register {
+    display: flex;
+    flex-direction: column;
+}
