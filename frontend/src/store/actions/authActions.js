@@ -6,6 +6,7 @@ export const register = credentials => {
     // call backend service here
     const { username, password } = credentials;
     const url = `${baseUrl}/auth/register`;
+    console.log('inside register');
     fetch(url, {
       method: 'POST',
       body: JSON.stringify({ username, password }),
@@ -26,9 +27,10 @@ export const register = credentials => {
 
 export const login = credentials => {
   return (dispatch, getState) => {
-    // call backend servic ehere
+    // call backend service here
     const { username, password } = credentials;
-    const url = `${baseUrl}/auth/signin`;
+    const url = `${baseUrl}/auth/login`;
+    console.log('inside login');
 
     fetch(url, {
       method: 'POST',

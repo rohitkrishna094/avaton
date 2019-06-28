@@ -1,30 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { register, removeRegisterError, login } from '../../store/actions/authActions';
 import './Auth.css';
 
 const Login = props => {
-  const { onChange } = props;
+  const { onChange, onSubmit, onEnter } = props;
   return (
     <div className="login">
       <span>Login</span>
-      <input type="text" name="username" placeholder="Username" onChange={onChange} />
-      <input type="password" name="password" placeholder="Password" onChange={onChange} />
-      <button>Login</button>
+      <input type="text" name="username" placeholder="Username" onChange={onChange} onKeyDown={onEnter} />
+      <input type="password" name="password" placeholder="Password" onChange={onChange} onKeyDown={onEnter} />
+      <button onClick={onSubmit} onKeyDown={onEnter}>
+        Login
+      </button>
     </div>
   );
 };
 
 const Register = props => {
-  const { onChange } = props;
+  const { onChange, onSubmit, onEnter } = props;
   return (
     <div className="register">
       <span>Register</span>
-      <input type="text" name="name" placeholder="Name" onChange={onChange} />
-      <input type="email" name="email" placeholder="Email" onChange={onChange} />
-      <input type="text" name="username" placeholder="Username" onChange={onChange} />
-      <input type="password" name="password" placeholder="Password" onChange={onChange} />
-      <button>Register</button>
+      <input type="text" name="name" placeholder="Name" onChange={onChange} onKeyDown={onEnter} />
+      <input type="email" name="email" placeholder="Email" onChange={onChange} onKeyDown={onEnter} />
+      <input type="text" name="username" placeholder="Username" onChange={onChange} onKeyDown={onEnter} />
+      <input type="password" name="password" placeholder="Password" onChange={onChange} onKeyDown={onEnter} />
+      <button onClick={onSubmit}>Register</button>
     </div>
   );
 };
@@ -46,10 +49,21 @@ class Auth extends Component {
     });
   };
 
+  onSubmit = e => {
+    const { active } = this.state;
+    this.props[active](this.state[`${active}Creds`]);
+  };
+
+  onEnter = e => {
+    if (e.key === 'Enter') {
+      this.onSubmit();
+    }
+  };
+
   render() {
     const mapping = {
-      register: <Register onChange={e => this.onChange(e)} />,
-      login: <Login onChange={e => this.onChange(e)} />
+      register: <Register onChange={e => this.onChange(e)} onSubmit={e => this.onSubmit(e)} onEnter={e => this.onEnter(e)} />,
+      login: <Login onChange={e => this.onChange(e)} onSubmit={e => this.onSubmit(e)} onEnter={e => this.onEnter(e)} />
     };
 
     const colorCondition = this.state.active === 'login';
@@ -76,8 +90,18 @@ class Auth extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
-const mapDispatchToProps = dispatch => ({});
+const mapStateToProps = state => ({
+  signedUp: state.auth.signedUp,
+  error: state.auth.error,
+  loginError: state.auth.error,
+  loggedIn: state.auth.loggedIn,
+  token: state.auth.token
+});
+const mapDispatchToProps = dispatch => ({
+  register: registerCreds => dispatch(register(registerCreds)),
+  removeSignUpError: () => dispatch(removeRegisterError()),
+  login: loginCreds => dispatch(login(loginCreds))
+});
 
 export default connect(
   mapStateToProps,
