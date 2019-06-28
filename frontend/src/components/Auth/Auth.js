@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { register, removeRegisterError, login } from '../../store/actions/authActions';
+import { saveToken } from '../../util/jwtUtil';
 import './Auth.css';
 
 const Login = props => {
@@ -35,6 +36,14 @@ const Register = props => {
 class Auth extends Component {
   state = { active: 'register', registerCreds: { name: '', email: '', username: '', password: '' }, loginCreds: { username: '', password: '' } };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.loggedIn) {
+      saveToken(nextProps.token);
+      nextProps.history.push('/home');
+    }
+    return null;
+  }
+
   onClick = (e, active) => {
     this.setState({ active });
   };
@@ -51,7 +60,8 @@ class Auth extends Component {
 
   onSubmit = e => {
     const { active } = this.state;
-    this.props[active](this.state[`${active}Creds`]);
+    const creds = this.state[`${active}Creds`];
+    if (Object.values(creds).every(x => x.length > 0)) this.props[active](creds);
   };
 
   onEnter = e => {

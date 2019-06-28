@@ -12,7 +12,7 @@ const authReducer = (state = initialState, action) => {
     case LOGIN_ERROR:
       return { ...state, error: action.payload.error, token: null, loggedIn: false };
     case LOGIN_SUCCESS:
-      return { ...state, token: action.payload.token, error: {}, loggedIn: true };
+      return { ...state, token: action.payload.data.token, error: {}, loggedIn: true };
     default:
       return state;
   }
