@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import Navbar from '../Navbar/Navbar';
+import ProfileMain from './ProfileMain';
 
 class Profile extends Component {
   render() {
     return (
       <div>
-        <p>Profile works</p>
+        <Navbar />
+        <ProfileMain />;
       </div>
     );
   }

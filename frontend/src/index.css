@@ -4,15 +4,35 @@
   --complementary-color: white;
 }
 
+html,
 body {
   margin: 0;
+  padding: 0;
   font-family: 'Stylish', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--primary-background-color);
 }
 
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.bg-blue {
+  background-color: #38a9ff;
+
+}
+
+.bg-purple {
+  background-color: #7c5ac2;
+}
+
+.bg-primary {
+  background-color: #ff5e3a;
 }

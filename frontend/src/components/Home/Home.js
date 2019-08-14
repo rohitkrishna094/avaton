@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { isAuthenticated } from '../../util/jwtUtil';
+import './Home.css';
+import Navbar from '../Navbar/Navbar';
+import HomeMain from './HomeMain';
 
 class Home extends Component {
   render() {
-    console.log(isAuthenticated());
     return (
-      <div>
-        <p>Home works</p>
+      <div className="home">
+        <Navbar />
+        <HomeMain />
       </div>
     );
   }

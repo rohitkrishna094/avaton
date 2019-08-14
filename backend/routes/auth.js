@@ -71,4 +71,8 @@ router.get('/test', async (req, res, next) => {
   }
 });
 
+router.get('/test2', async (req, res, next) => {
+    return res.json({ success: true, msg: 'You are awesome' });
+});
+
 module.exports = router;
